@@ -1,12 +1,12 @@
 DEPENDENCIES
  bash >=4.0
- cron (only if using upstart)
+ cron (only if not using systemd)
  find
  rsync
 
  a supported init system
  -systemd
- -upstart
+ -upstart (legacy; systemd is strongly preferred)
 
 WARNING
 To avoid data loss, it is HIGHLY recommended that users stop any running
@@ -34,7 +34,3 @@ USE A DISTRO PROVIDED PACKAGE
  ARCH LINUX
  Arch users may build the package directly with the provided PKGBUILD:
  https://aur.archlinux.org/packages/anything-sync-daemon
-
- CHAKRA
- Chakra users may build the package directly with the provided PKGBUILD:
- http://chakraos.org/ccr/packages.php?ID=3750

@@ -3,7 +3,7 @@
 .TH "anything\-sync\-daemon" "1" "" ""
 .SH NAME
 \f[CR]anything\-sync\-daemon\f[R] \- Symlinks and syncs user specified
-dirs to RAM thus reducing HDD/SDD calls and speeding\-up the system.
+dirs to RAM thus reducing HDD/SSD calls and speeding\-up the system.
 .SH DESCRIPTION
 \f[CR]anything\-sync\-daemon\f[R] (\f[CR]asd\f[R]) is a tiny
 pseudo\-daemon designed to manage user specified directories referred to
@@ -147,7 +147,7 @@ Available options: \- \f[CR]start\f[R] \- \f[CR]stop\f[R] \-
 .SS START AND STOP ASD FOR USERS OF OTHER INIT SYSTEMS
 For distros not using systemd, another init script should be used to
 manage the daemon.
-Examples are provided and are known to work with Upstart.
+Examples are provided and are known to work with Upstart (legacy; systemd is strongly preferred).
 .PP
 Note that for these init systems, the supplied cron script (installed to
 \f[CR]/etc/cron.hourly\f[R]) will run the resync option to keep the
