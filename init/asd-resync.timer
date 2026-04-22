@@ -1,6 +1,12 @@
 [Unit]
 Description=Timer for Anything-sync-daemon - 1Hour
-PartOf=asd-resync.service asd.service
+Documentation=man:asd(1) man:anything-sync-daemon(1)
+Documentation=https://wiki.archlinux.org/title/Anything-sync-daemon
+PartOf=asd.service
 
 [Timer]
+OnActiveSec=1h
 OnUnitActiveSec=1h
+
+[Install]
+WantedBy=default.target
