@@ -161,7 +161,7 @@ debug "Crash recovery enabled: $CRRE"
 # overlay FS v23 and later requires both an upper and a work directory, both on
 # the same filesystem, but not part of the same subtree.
 #
-# ubuntu 15.04 has both overlay and overlayfs so prefer version 23
+# Some legacy distributions have both overlay and overlayfs; prefer version 23
 if [[ $OLFS -eq 1 ]]; then
   # first test if either module is manually loaded manually or hardcoded
   [[ $(grep -ciE "overlayfs$" /proc/filesystems) -eq 1 ]] && OLFSVER=22
@@ -195,7 +195,7 @@ else
   if [[ -n $(sed 's| \\.*$||' /etc/issue | head -n 1) ]]; then
     distro="$(sed 's| \\.*$||' /etc/issue | head -n 1)"
   else
-    # fuck it
+    # Fallback if no distro string is found
     distro=
   fi
 fi

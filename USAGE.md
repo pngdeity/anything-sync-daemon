@@ -2,7 +2,7 @@
 
 # NAME
 
-`anything-sync-daemon` - Symlinks and syncs user specified dirs to RAM thus reducing HDD/SDD calls and speeding-up the system.
+`anything-sync-daemon` - Symlinks and syncs user specified dirs to RAM thus reducing HDD/SSD calls and speeding-up the system.
 
 # DESCRIPTION
 
@@ -115,7 +115,7 @@ Available options:
 
 ## START AND STOP ASD FOR USERS OF OTHER INIT SYSTEMS
 
-For distros not using systemd, another init script should be used to manage the daemon. Examples are provided and are known to work with Upstart.
+For distros not using systemd, another init script should be used to manage the daemon. Examples are provided and are known to work with Upstart (legacy; systemd is strongly preferred).
 
 Note that for these init systems, the supplied cron script (installed to `/etc/cron.hourly`) will run the resync option to keep the tmpfs copies synced. Of course, the target system must have cron installed and active for this to happen.
 
@@ -129,7 +129,7 @@ At this time, the following distros are officially supported but there is no rea
 
 **Q1: What is overlayfs mode?**
 
-**A1:** Overlayfs is a simple union file-system mainlined in the Linux kernel version 3.18.0. Starting with asd version 5.54, overlayfs can be used to reduce the memory footprint of asd's tmpfs space and to speed up sync and unsync operations. The magic is in how the overlay mount only writes out data that has changed rather than the entire sync target. See Example 1 below. The same recovery features asd uses in its default mode are also active when running in overlayfs mode. Overlayfs mode is enabled by uncommenting the `USE_OVERLAYFS=` in `/etc/asd.conf` followed by a restart of the daemon.
+**A1:** Overlayfs is a simple union filesystem mainlined in the Linux kernel version 3.18.0. Starting with asd version 5.54, overlayfs can be used to reduce the memory footprint of asd's tmpfs space and to speed up sync and unsync operations. The magic is in how the overlay mount only writes out data that has changed rather than the entire sync target. See Example 1 below. The same recovery features asd uses in its default mode are also active when running in overlayfs mode. Overlayfs mode is enabled by uncommenting the `USE_OVERLAYFS=` in `/etc/asd.conf` followed by a restart of the daemon.
 
 There are several versions of overlayfs available to the Linux kernel in production in various distros. Versions 22 and lower have a module called 'overlayfs' while newer versions (23 and higher) have a module called 'overlay' -- note the lack of the 'fs' in the newer version. Asd will automatically detect the overlayfs available to your kernel if it is configured to use one of them.
 
@@ -154,7 +154,7 @@ See the example in the PREVIEW MODE section above which shows a system using ove
 
 1. Stop asd.
 2. Confirm that the directories created by asd is not present. If they are, asd did not stop correctly for other reasons.
-3. Move the "bad" copy of the sync taget to a backup (don't blindly delete anything).
+3. Move the "bad" copy of the sync target to a backup (don't blindly delete anything).
 4. Untar the snapshot directory to the expected sync target.
 
 Example using /foo/bar:
