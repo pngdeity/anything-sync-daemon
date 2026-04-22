@@ -1,5 +1,6 @@
 # Build artifacts
 common/anything-sync-daemon
+doc/asd.1
 
 # Editor files
 *.swp
