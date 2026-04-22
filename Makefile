@@ -17,6 +17,8 @@ COMPRESS_MAN = 1
 
 RM = rm
 SED = sed
+PANDOC ?= pandoc
+SHELLCHECK ?= shellcheck
 INSTALL = install -p
 INSTALL_PROGRAM = $(INSTALL) -m755
 INSTALL_SCRIPT = $(INSTALL) -m755
@@ -28,6 +30,10 @@ Q = @
 common/$(PN): Makefile common/$(PN).in
 	$(Q)echo -e '\033[1;32mSetting version\033[0m'
 	$(Q)$(SED) 's/@VERSION@/'$(VERSION)'/' common/$(PN).in > common/$(PN)
+
+doc: USAGE.md
+	$(Q)echo -e '\033[1;32mGenerating manpage...\033[0m'
+	$(Q)$(PANDOC) -s -t man USAGE.md -o doc/asd.1
 
 lint:
 	$(Q)./scripts/check.sh
@@ -55,7 +61,7 @@ install-bin: stop-asd disable-systemd common/$(PN)
 	$(INSTALL_DIR) "$(DESTDIR)$(BSHDIR)"
 	$(INSTALL_DATA) common/bash-completion "$(DESTDIR)/$(BSHDIR)/asd"
 
-install-man:
+install-man: doc
 	$(Q)echo -e '\033[1;32mInstalling manpage...\033[0m'
 	$(INSTALL_DIR) "$(DESTDIR)$(MANDIR)"
 	$(INSTALL_DATA) doc/asd.1 "$(DESTDIR)$(MANDIR)/asd.1"
