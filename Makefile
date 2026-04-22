@@ -29,6 +29,9 @@ common/$(PN): Makefile common/$(PN).in
 	$(Q)echo -e '\033[1;32mSetting version\033[0m'
 	$(Q)$(SED) 's/@VERSION@/'$(VERSION)'/' common/$(PN).in > common/$(PN)
 
+lint:
+	$(Q)./scripts/check.sh
+
 help: install
 
 stop-asd:

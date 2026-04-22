@@ -12,4 +12,4 @@ jobs:
     - name: Static analysis using shellcheck
       run: |
         sudo apt-get install shellcheck -y
-        shellcheck common/anything-sync-daemon.in -e SC1091
+        make lint
