@@ -19,6 +19,7 @@ RM = rm
 SED = sed
 PANDOC ?= pandoc
 SHELLCHECK ?= shellcheck
+SHFMT ?= shfmt
 INSTALL = install -p
 INSTALL_PROGRAM = $(INSTALL) -m755
 INSTALL_SCRIPT = $(INSTALL) -m755
@@ -34,6 +35,9 @@ common/$(PN): Makefile common/$(PN).in
 doc: USAGE.md
 	$(Q)echo -e '\033[1;32mGenerating manpage...\033[0m'
 	$(Q)$(PANDOC) -s -t man USAGE.md -o doc/asd.1
+
+check:
+	$(Q)./scripts/check.sh
 
 lint:
 	$(Q)./scripts/check.sh
@@ -142,4 +146,4 @@ uninstall:
 clean:
 	$(RM) -f common/$(PN)
 
-.PHONY: help install-bin install-man install-cron install-systemd install-upstart install-systemd-all install-upstart-all install uninstall-bin uninstall-man uninstall-cron uninstall-systemd uninstall-upstart uninstall-systemd-all uninstall clean
+.PHONY: help check lint install-bin install-man install-cron install-systemd install-upstart install-systemd-all install-upstart-all install uninstall-bin uninstall-man uninstall-cron uninstall-systemd uninstall-upstart uninstall-systemd-all uninstall clean doc
