@@ -1,0 +1,6 @@
+# Build artifacts
+common/anything-sync-daemon
+
+# Editor files
+*.swp
+*~

@@ -14,21 +14,21 @@ versions of this software before install updates. Internal changes are
 always possible from one release to another.
 
 BUILDING
- Setup the via a make.
+ Set up via make.
 
  $ make
 
- Running a `make install-xxx` as root will distribute the files to the file-
- system.  Most users will want to select from three options depending on target
+ Running a `make install-xxx` as root will distribute the files to the
+ filesystem. Most users will want to select from two options depending on target
  init system (do not run both)!
 
   # make install-systemd-all
   # make install-upstart-all
 
  As of v3.13, the Makefiles for systemd-native distros such as Arch, Exherbo,
- and Fedora, no longer install the deprecated cron script using a systemd
+ and Fedora no longer install the deprecated cron script, by using a systemd
  timer instead. Users may override and install the deprecated cron script by
- running make with `install-with-cron` instead  of `install` at this point.
+ running make with `install-with-cron` instead of `install` at this point.
 
 USE A DISTRO PROVIDED PACKAGE
  ARCH LINUX

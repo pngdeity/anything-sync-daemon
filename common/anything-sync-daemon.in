@@ -272,9 +272,9 @@ config_check() {
 
 root_check() {
   # we call this to ensure that only the root user is calling the
-  # function why care? both the sync and unsync functions require
-  # root access to $DAEMON_FILE Running as unprivileged user will
-  # fuck up the sync process resulting in unhappy users
+  # function. Why care? Both the sync and unsync functions require
+  # root access to $DAEMON_FILE. Running as an unprivileged user will
+  # cause the sync process to fail, resulting in unhappy users.
 
   debug "\n${RED}Checking root permissions${NRM}"
   if [[ $EUID -ne 0 ]]; then
@@ -285,15 +285,15 @@ root_check() {
 }
 
 ungraceful_state_check() {
-  # if the machine was ungracefully shutdown then the backup will be
+  # if the machine was ungracefully shut down then the backup will be
   # on the filesystem and the link to tmpfs will be on the filesystem
-  # but the contents will be empty we need to simply remove the link
-  # and rotate the backup into place
+  # but the contents will be empty. We need to simply remove the link
+  # and rotate the backup into place.
   debug "\n${BLU}checking ungraceful state${NRM}"
   local DIR USER BACKUP TMP
   for DIR in "${WHATTOSYNC[@]}"; do
     # did user define a real dir
-    # this is the hdd bound backup in case of power failure
+    # this is the disk bound backup in case of power failure
     [[ ${DIR##*/} == .* ]] && BACKUP="${DIR%/*}/${DIR##*/}-backup_asd" ||
       BACKUP="${DIR%/*}/.${DIR##*/}-backup_asd"
     [[ ${DIR##*/} == .* ]] && BACK_OLD="${DIR%/*}/${DIR##*/}-backup_asd-old" ||
@@ -338,7 +338,7 @@ cleanup() {
   debug "\n${BLU}Cleaning up crashrecoveries${NRM}"
   local DIR USER GROUP BACKUP TMP
   for DIR in "${WHATTOSYNC[@]}"; do
-    # this is the hdd bound backup in case of power failure
+    # this is the disk bound backup in case of power failure
     [[ ${DIR##*/} == .* ]] && BACKUP="${DIR%/*}/${DIR##*/}-backup_asd" ||
       BACKUP="${DIR%/*}/.${DIR##*/}-backup_asd"
     USER=$(stat -c %U "$DIR")
@@ -369,7 +369,7 @@ enforce() {
   debug "\n${BLU}Enforcing number of backups${NRM}"
   local DIR BACKUP
   for DIR in "${WHATTOSYNC[@]}"; do
-    # this is the hdd bound backup in case of power failure
+    # this is the disk bound backup in case of power failure
     [[ ${DIR##*/} == .* ]] && BACKUP="${DIR%/*}/${DIR##*/}-backup_asd" ||
       BACKUP="${DIR%/*}/.${DIR##*/}-backup_asd"
     debug "DIR: $DIR\nBACKUP: $BACKUP"
@@ -393,13 +393,13 @@ do_sync() {
 
   # make a snapshot of /etc/asd.conf and redefine its location to tmpfs while
   # asd is running to keep any edits made to the live /etc/asd.conf from
-  # potentially orphaning the tmpfs copies thus preserving the data
+  # potentially orphaning the tmpfs copies, thus preserving the data.
   [[ ! -f "${DAEMON_FILE}.conf" ]] && cp "$ASDCONF" "${DAEMON_FILE}.conf" && debug "copied $ASDCONF to ${DAEMON_FILE}.conf"
 
   # sync to tmpfs and back again
   local DIR USER GROUP BACKUP TMP
   for DIR in "${WHATTOSYNC[@]}"; do
-    # this is the hdd bound backup in case of power failure
+    # this is the disk bound backup in case of power failure
     [[ ${DIR##*/} == .* ]] && BACKUP="${DIR%/*}/${DIR##*/}-backup_asd" ||
       BACKUP="${DIR%/*}/.${DIR##*/}-backup_asd"
     [[ ${DIR##*/} == .* ]] && BACK_OLD="${DIR%/*}/${DIR##*/}-backup_asd-old" ||
@@ -428,7 +428,7 @@ do_sync() {
         fi
       fi
 
-      # sync the tmpfs targets to the disc
+      # sync the tmpfs targets to the disk
       if [[ -e "$TMP"/.flagged ]]; then
         debug "Syncing $TMP and $BACKUP"
         # don't do inplace sync
@@ -487,7 +487,7 @@ do_unsync() {
 
   local DIR USER BACKUP TMP
   for DIR in "${WHATTOSYNC[@]}"; do
-    # this is the hdd bound backup in case of power failure
+    # this is the disk bound backup in case of power failure
     [[ ${DIR##*/} == .* ]] && BACKUP="${DIR%/*}/${DIR##*/}-backup_asd" ||
       BACKUP="${DIR%/*}/.${DIR##*/}-backup_asd"
     [[ ${DIR##*/} == .* ]] && BACK_OLD="${DIR%/*}/${DIR##*/}-backup_asd-old" ||
@@ -502,7 +502,7 @@ do_unsync() {
     # remove link and move data from tmpfs to disk
     if mountpoint -q "$DIR"; then
       # this assumes that the backup is always
-      # updated so be sure to invoke a sync before an unsync
+      # updated, so be sure to invoke a sync before an unsync.
       debug "unmounting $DIR"
       umount -R -f -l "$DIR"
       debug "unmounting $BACKUP"
@@ -519,9 +519,9 @@ do_unsync() {
   done
 
   # delete daemon file in the end, so that unsync can be run again
-  # incase of some failure midway
-  # since unsync also requires sync before, if any of the DIRS are unsynced during last run,
-  # they will be synced again before unsyncing not leading to any breakage
+  # in case of some failure midway.
+  # Since unsync also requires sync before, if any of the DIRS are unsynced during last run,
+  # they will be synced again before unsyncing, not leading to any breakage.
 
   debug "Removing $DAEMON_FILE and ${DAEMON_FILE}.conf"
   rm -f "$DAEMON_FILE" "${DAEMON_FILE}.conf"
@@ -554,7 +554,7 @@ parse() {
   echo
   local DIR USER GROUP BACKUP TMP
   for DIR in "${WHATTOSYNC[@]}"; do
-    # this is the hdd bound backup in case of power failure
+    # this is the disk bound backup in case of power failure
     [[ ${DIR##*/} == .* ]] && BACKUP="${DIR%/*}/${DIR##*/}-backup_asd" ||
       BACKUP="${DIR%/*}/.${DIR##*/}-backup_asd"
     USER=$(stat -c %U "$DIR")
@@ -660,7 +660,7 @@ case "$1" in
       echo
       echo -e " ${BLD}systemctl ${NRM}${GRN}[option]${NRM}${BLD} asd asd-resync${NRM}"
       echo -e " ${BLD} ${NRM}${GRN}start${NRM}${BLD}    Turn on daemon; make symlinks and actively manage targets in tmpfs.${NRM}"
-      echo -e " ${BLD} ${NRM}${GRN}stop${NRM}${BLD}   Turn off daemon; remove symlinks and rotate tmpfs data back to disc.${NRM}"
+      echo -e " ${BLD} ${NRM}${GRN}stop${NRM}${BLD}   Turn off daemon; remove symlinks and rotate tmpfs data back to disk.${NRM}"
       echo -e " ${BLD} ${NRM}${GRN}enable${NRM}${BLD} Autostart daemon when system comes up.${NRM}"
       echo -e " ${BLD} ${NRM}${GRN}disable${NRM}${BLD}  Remove daemon from the list of autostart daemons.${NRM}"
     elif [[ -f /etc/init.d/asd ]]; then
@@ -668,7 +668,7 @@ case "$1" in
       echo
       echo -e " ${BLD}sudo service asd ${NRM}${GRN}[option]${NRM}${BLD} or /etc/init.d/asd ${NRM}${GRN}[option]${NRM}"
       echo -e " ${BLD} ${NRM}${GRN}start${NRM}${BLD}  Turn on daemon; make symlinks and actively manage targets in tmpfs.${NRM}"
-      echo -e " ${BLD} ${NRM}${GRN}stop${NRM}${BLD} Turn off daemon; remove symlinks and rotate tmpfs data back to disc.${NRM}"
+      echo -e " ${BLD} ${NRM}${GRN}stop${NRM}${BLD} Turn off daemon; remove symlinks and rotate tmpfs data back to disk.${NRM}"
     fi
     ;;
 esac

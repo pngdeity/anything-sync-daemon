@@ -8,7 +8,7 @@
 # Short-Description: Keeps user defined dirs in tmpfs.
 # Description:       Anything-sync-daemon (asd) is a tiny pseudo-daemon designed to manage
 #                    user specified directories in tmpfs and to periodically sync them back 
-#                    to the physical disc (HDD/SSD).
+#                    to the physical disk (HDD/SSD).
 ### END INIT INFO
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
