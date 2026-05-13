@@ -1,0 +1,34 @@
+lockfile_version: '1'
+generated_at: '2026-05-13T12:43:55.170403+00:00'
+apm_version: 0.13.0
+dependencies:
+- repo_url: _local/ci-cd-standards
+  package_type: apm_package
+  deployed_files:
+  - .agents/skills/ci-cd-pipeline
+  - .agents/skills/ioc-github-actions
+  - .github/instructions/cncf-buildpacks.instructions.md
+  - .github/instructions/gha-standards.instructions.md
+  deployed_file_hashes:
+    .github/instructions/cncf-buildpacks.instructions.md: sha256:5d853573ba997133cc14e9e5779bbd66113f66101393df40c08c23cfb8a0b5e1
+    .github/instructions/gha-standards.instructions.md: sha256:3a8205902be4ad16f8a709ae64e469cd52716964478f4ba1597758afe05c5d9d
+  source: local
+  local_path: /home/nathan/repos/pngdeity/apm-user-repository/packages/ci-cd-standards
+- repo_url: _local/development-practices
+  package_type: apm_package
+  deployed_files:
+  - .agents/skills/conventional-commits
+  - .agents/skills/technical-integrity
+  - .github/instructions/code-standards.instructions.md
+  - .github/instructions/engineering-workflow.instructions.md
+  - .github/instructions/git-standards.instructions.md
+  deployed_file_hashes:
+    .github/instructions/code-standards.instructions.md: sha256:b4e202e7898bdeda31475e927fd4dc1be91fad8528d31634d9625b8450456f7e
+    .github/instructions/engineering-workflow.instructions.md: sha256:6729c85895f2b88706eb2fdf02a23771b2886145dc5d86c7bd0c4dcb9495f831
+    .github/instructions/git-standards.instructions.md: sha256:e0e93bb30b34bdbff842a16d453242238d59563123c77835b2a09855ba3307ab
+  source: local
+  local_path: /home/nathan/repos/pngdeity/apm-user-repository/packages/development-practices
+local_deployed_files:
+- .github/instructions/anything-sync-daemon.instructions.md
+local_deployed_file_hashes:
+  .github/instructions/anything-sync-daemon.instructions.md: sha256:6efaa412545fbce69cc7881845fda012ccedce65424a6117928417dcfc042080
