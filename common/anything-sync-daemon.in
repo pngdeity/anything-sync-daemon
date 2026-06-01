@@ -572,8 +572,10 @@ parse() {
   echo -e "${BLD}Asd will manage the following per ${BLU}${ASDCONF}${NRM}${BLD} settings:${NRM}"
   echo
   local DIR USER GROUP BACKUP TMP
-  local tput_cr=$(tput cr 2>/dev/null || true)
-  local tput_cuf20=$(tput cuf 20 2>/dev/null || true)
+  local tput_cr
+  local tput_cuf20
+  tput_cr=$(tput cr 2>/dev/null || true)
+  tput_cuf20=$(tput cuf 20 2>/dev/null || true)
   for DIR in "${WHATTOSYNC[@]}"; do
     # this is the hdd bound backup in case of power failure
     [[ ${DIR##*/} == .* ]] && BACKUP="${DIR%/*}/${DIR##*/}-backup_asd" ||
