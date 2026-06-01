@@ -572,6 +572,8 @@ parse() {
   echo -e "${BLD}Asd will manage the following per ${BLU}${ASDCONF}${NRM}${BLD} settings:${NRM}"
   echo
   local DIR USER GROUP BACKUP TMP
+  local tput_cr=$(tput cr 2>/dev/null || true)
+  local tput_cuf20=$(tput cuf 20 2>/dev/null || true)
   for DIR in "${WHATTOSYNC[@]}"; do
     # this is the hdd bound backup in case of power failure
     [[ ${DIR##*/} == .* ]] && BACKUP="${DIR%/*}/${DIR##*/}-backup_asd" ||
@@ -585,31 +587,31 @@ parse() {
     # sync target dir size
     if [[ -d "$DIR" ]]; then
       echo -en " ${BLD}owner/group id:"
-      echo -e "$(tput cr)""$(tput cuf 20)" "$USER/$GROUP${NRM}"
+      echo -e "${tput_cr}""${tput_cuf20}" "$USER/$GROUP${NRM}"
       echo -en " ${BLD}target to manage:"
-      echo -e "$(tput cr)""$(tput cuf 20)" "${GRN}$DIR${NRM}"
+      echo -e "${tput_cr}""${tput_cuf20}" "${GRN}$DIR${NRM}"
       echo -en " ${BLD}sync target:"
-      echo -e "$(tput cr)""$(tput cuf 20)" "${BLU}$BACKUP${NRM}"
+      echo -e "${tput_cr}""${tput_cuf20}" "${BLU}$BACKUP${NRM}"
       echo -en " ${BLD}tmpfs target:"
-      echo -e "$(tput cr)""$(tput cuf 20)" "${RED}$TMP${NRM}"
+      echo -e "${tput_cr}""${tput_cuf20}" "${RED}$TMP${NRM}"
       echo -en " ${BLD}dir size:"
       psize=$(du -Dh --max-depth=0 "$DIR" 2>/dev/null | awk '{ print $1 }')
-      echo -e "$(tput cr)$(tput cuf 20) $psize${NRM}"
+      echo -e "${tput_cr}${tput_cuf20} $psize${NRM}"
       if [[ $OLFS -eq 1 ]]; then
         rwsize=$(du -Dh --max-depth=0 "$UPPER" 2>/dev/null | awk '{ print $1 }')
         echo -en " ${BLD}overlayfs size:"
-        echo -e "$(tput cr)$(tput cuf 20) $rwsize${NRM}"
+        echo -e "${tput_cr}${tput_cuf20} $rwsize${NRM}"
       fi
       echo -en " ${BLD}recovery dirs:"
       mapfile -t CRASHArr < <(find "${BACKUP%/*}" -maxdepth 1 -name "${BACKUP##*/}-$CRASH_RECOVERY_SUFFIX-*" 2>/dev/null|sort -r)
       if [[ "${#CRASHArr[@]}" -eq 0 ]]; then
-        echo -e "$(tput cr)$(tput cuf 20) none${NRM}"
+        echo -e "${tput_cr}${tput_cuf20} none${NRM}"
       else
-        echo -e "$(tput cr)$(tput cuf 20) ${RED}${#CRASHArr[@]}${NRM}${BLD} <- delete with the c option${NRM}"
+        echo -e "${tput_cr}${tput_cuf20} ${RED}${#CRASHArr[@]}${NRM}${BLD} <- delete with the c option${NRM}"
         for backup in "${CRASHArr[@]}"; do
           psize=$(du -Dh --max-depth=0 "$backup" 2>/dev/null | awk '{ print $1 }')
           echo -en " ${BLD} dir path/size:"
-          echo -e "$(tput cr)$(tput cuf 20) ${BLU}$backup ${NRM}${BLD}($psize)${NRM}" 
+          echo -e "${tput_cr}${tput_cuf20} ${BLU}$backup ${NRM}${BLD}($psize)${NRM}"
         done
       fi
       unset CRASHArr
